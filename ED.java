@@ -7,7 +7,7 @@ public class ED {
 
     //0.5 0.1
     public ED(int numTargets){
-        this.targets = new double[numTargets][3];
+        this.targets = new double[numTargets][2];
 
     }
 
@@ -63,9 +63,20 @@ public class ED {
         targets[indice] = vector;
     }
 
+    //Función de la esfera
     public double getAptitud(double[] vector){
-        return (vector[0] * vector[0]) +
-                (vector[1] * vector[1]) +
-                (vector[2] * vector[2]);
+        double valor = (vector[0]*vector[0]) + 12 * (vector[0]*vector[1])+ 2 * (vector[1]*vector[1]);
+        return valor;
+    }
+
+    public double funcionIgualdad(double[] vector){
+        double valor = 4 * (vector[0] * vector[0]) + (vector[1]*vector[1])-25;
+        return valor;
+    }
+
+    public double getPhi(double[] vector){
+        double valor;
+        valor = funcionIgualdad(vector);
+        return valor;
     }
 }

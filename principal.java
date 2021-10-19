@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class principal {
     //Se utilizó una matriz para representar la población de targets
     public static void main(String[] args) {
+
+        //Se implementa el nivel epsilon para convertir a un problema sin restricciones
         ArrayList<Double> mejoresValores = new ArrayList<Double>();
         System.out.println("Algoritmo de Evolución Diferencial!");
         ED ed = new ED(10);
@@ -13,10 +15,10 @@ public class principal {
         ed.mostrarTargets();
         System.out.println(":::::::::::::::::::::::::::::");
         int gen= 1;
-        int genMax = 15;
-        double f =0.01;
+        int genMax = 5;
+        double f =0.1;
         double cr = 1;
-
+        double nivelEpsilon = 12;
         while(gen<=genMax){
 
             String elegidos="";
@@ -63,14 +65,30 @@ public class principal {
 
                 System.out.println("Vector trial formado: ");
                 mostrarVector(u);
-                //Si el vector trail tiene mejor aptitud se remplaza el target y se coloca el trail en su
-                //posición
-                if(ed.getAptitud(u)  <= ed.getAptitud(ed.getTargets()[i])){
+                //Se reemplaza para hacer la comparación con el nivel epsilon
+
+                if(ed.getPhi(u) <= nivelEpsilon && ed.getPhi(ed.getTargets()[i]) <= nivelEpsilon){
+                    if(ed.getAptitud(u)  <= ed.getAptitud(ed.getTargets()[i])){
+                        ed.replaceVector(i,u);
+                    }
+                }
+                else if(ed.getPhi(u) == ed.getPhi(ed.getTargets()[i])){
+                    if(ed.getAptitud(u)  <= ed.getAptitud(ed.getTargets()[i])){
+                        ed.replaceVector(i,u);
+                    }
+                }
+                else{
+                    if(ed.getPhi(u)< ed.getPhi(ed.getTargets()[i]) ){
+                        ed.replaceVector(i,u);
+                    }
+                }
+                /*if(ed.getAptitud(u)  <= ed.getAptitud(ed.getTargets()[i])){
                     System.out.println("El trial tiene una aptitud de " + ed.getAptitud(u)
                     + " a diferencia del target que tiene " + ed.getAptitud(ed.getTargets()[i]));
                     System.out.println("El trial reemplaza al target");
                     ed.replaceVector(i,u);
                 }
+                 */
 
             }
             System.out.println("TARGETS PARA SIGUIENTE GENERACIÓN");
